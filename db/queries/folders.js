@@ -13,4 +13,23 @@ export async function createFolder(name) {
     rows: [folder],
   } = await db.query(sql, [name]);
   return folder;
+};
+
+export async function getFolder(id) {
+  const sql = `
+  SELECT *, (
+    SELECT json_agg(files)
+    FROM files
+    WHERE files.folder_id = folders.id
+  ) AS file
+   FROM folders
+   WHERE id = $1
+  `;
+
+  const {rows: [folder]} = await db.query(sql, [id]);
+  return folder;
+};
+
+export async function createFileByFolderId() {
+  
 }

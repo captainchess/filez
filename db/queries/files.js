@@ -24,3 +24,20 @@ export async function getFiles() {
   const {rows: files} = db.query(sql);
   return files;
 }
+/*
+export async function getFile(id) {
+  const sql = `
+   SELECT *, (
+    SELECT json_agg(folders)
+    FROM folders
+    WHERE folders.id = files.folder_id
+  ) AS folder
+   FROM files
+   WHERE id = $1`;
+
+   const { rows: file } = await db.query(sql, [id]);
+   return file;
+}
+   */
+
+
