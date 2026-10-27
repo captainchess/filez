@@ -1,5 +1,8 @@
 import db from "#db/client";
-import "@faker-js/faker";
+import { faker } from "@faker-js/faker";
+
+import { createFolder } from "./queries/folders.js";
+import { createFile } from "./queries/files.js";
 
 await db.connect();
 await seed();
@@ -8,19 +11,11 @@ console.log("🌱 Database seeded.");
 
 async function seed() {
   // TODO
-  for (let i = 0; i < 3; i++)  {
-    const folder = {
-      name: faker.person.firstName()
-    };
-    await createFolder(folder);
+  for (let i = 1; i <= 3; i++) {
+    await createFolder(faker.person.firstName());
 
-    for (let j = 0; j < 5; i++) {
-      const file = {
-        name: faker.finance.accountName(),
-        size: Math.floor(Math.random() * 100),
-        folder_id: i
-      };
-      await createFile(file);
+    for (let j = 1; j <= 5; j++) {
+      await createFile('File' + j, 100 * j, i);
     }
   }
 }

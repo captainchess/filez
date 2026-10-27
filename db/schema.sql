@@ -1,4 +1,6 @@
 -- TODO
+DROP TABLE IF EXISTS folders CASCADE;
+DROP TABLE IF EXISTS files;
 
 CREATE TABLE folders (
     id serial PRIMARY KEY,
