@@ -27,15 +27,3 @@ export async function getFiles() {
   const { rows: files } = await db.query(sql);
   return files;
 }
-
-export async function createFileByFolderId(id, name, size, folderId) {
-  const sql = `
-  INSERT INTO files (name, size, folder_id)
-  VALUES ($2, $3, $4)
-  WHERE folder_id = $1
-  RETURNING *
-  `;
-
-  const { rows: [file] } = await db.query(sql, [id, name, size, folderId]);
-  return file;
-}
