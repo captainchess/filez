@@ -13,31 +13,29 @@ export async function createFile(name, size, folderId) {
     rows: [file],
   } = await db.query(sql, [name, size, folderId]);
   return file;
-};
+}
 
 export async function getFiles() {
   const sql = `
-  SELECT * 
+  SELECT *, (
+    SELECT to_json(folders.name)
+    FROM folders
+    WHERE folders.id = files.folder_id) AS folder_name
   FROM files
   `;
 
-  const {rows: files} = db.query(sql);
+  const { rows: files } = await db.query(sql);
   return files;
 }
-/*
-export async function getFile(id) {
+
+export async function createFileByFolderId(id, name, size, folderId) {
   const sql = `
-   SELECT *, (
-    SELECT json_agg(folders)
-    FROM folders
-    WHERE folders.id = files.folder_id
-  ) AS folder
-   FROM files
-   WHERE id = $1`;
+  INSERT INTO files (name, size, folder_id)
+  VALUES ($2, $3, $4)
+  WHERE folder_id = $1
+  RETURNING *
+  `;
 
-   const { rows: file } = await db.query(sql, [id]);
-   return file;
+  const { rows: [file] } = await db.query(sql, [id, name, size, folderId]);
+  return file;
 }
-   */
-
-

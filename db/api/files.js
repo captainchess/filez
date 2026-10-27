@@ -2,11 +2,11 @@ import express from "express";
 const router = express.Router();
 export default router;
 
-import {getFiles, getFile} from "../queries/files.js";
+import { getFiles } from "../queries/files.js";
 
 router.get("/", async (req, res) => {
-    const files = await getFiles();
-    res.send(files);
+  const files = await getFiles();
+  res.send(files);
 });
 
 /*
@@ -16,4 +16,3 @@ router.get("/:id", async (req, res) => {
     res.send(file);
 })
 */
-
